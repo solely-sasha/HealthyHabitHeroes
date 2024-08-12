@@ -39,13 +39,14 @@ const authenticateUser = async (req, res, next) => {
   try {
     let token;
     // Check for authorization header
-    if(req.headers.authorization && 
+    if (
+      req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")
-    )
-    {
+    ) {
       token = req.headers.authorization.split(" ")[1];
-    }else if (req.cookies.token){
-      token = req.cookies.token;
+    } else if (req.cookies.token) {
+      token = req.cookies.token
+
     }
     // If token exists, verify and decode it
     if (token) {
@@ -55,18 +56,16 @@ const authenticateUser = async (req, res, next) => {
       req.user = await User.findById(decoded._id).select("-password");
 
       // Check if the user exists
-     if(!req.user){
-      return res.status(401).json({error: "unauthorized access"})
-
-     }
-    next()
-  }else{
-    res.status(401).json({error: "No token, authorization denied"})
-  } catch (error) {
-    
-  }catch(err){
-    res.status(401).json({error: "invalid token"})
+      if (!req.user) {
+        return res.status(401).json({ error: "unauthorized access" });
+      }
+      next(); // Move the else block after this line
+    } else {
+      res.status(401).json({ error: "No token, authorization denied" });
+    } 
+  } catch (err) {
+    res.status(401).json({ error: "invalid token" });
   }
-}
+};
 
 module.exports = {authenticateParent, authenticateUser}

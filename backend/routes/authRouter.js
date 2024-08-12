@@ -194,4 +194,3 @@ authRouter.get("/signout", async (req, res) => {
 });
 
 module.exports = authRouter;
-

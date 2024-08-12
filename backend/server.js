@@ -22,8 +22,10 @@ const connectToDb = async () => {
 connectToDb();
 
 // routes
-// app.use("/api/auth", require("./routes/authRouter"));
-// app.use("/api/chores", require("./routes/choreRouter"));
+app.use("/api/auth", require("./routes/authRouter"));
+app.use("/api/chores", require("./routes/choreRouter"));
+app.use("/api/rewards", require("./routes/rewardRouter"));
+// app.use("/api/children", require("./routes/childRouter"));
 
 app.use((err, req, res, next) => {
   console.error(err);
